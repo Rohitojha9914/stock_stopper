@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charts</title>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap; /* Allow flex items to wrap */
+            justify-content: space-between; /* Adjust as needed */
+        }
+        .chart-container {
+            flex-basis: calc(33.33%); /* Set flex basis to 33.33% minus spacing */
+           margin-bottom: 20px; /*Adjust vertical spacing between lines */
+        }
+        #textDiv {
+            font-size: 18px;
+            padding: 10px;
+            margin-left: 20%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+</head>
+<body>
+    <!-- <h1> {{ closed_price, last_price, per }}</h1> -->
+
+    <div id="textDiv">
+        <p>Today Percentage Gain/loss : <span style="color: {% if per < 0 %}red{% else %}green{% endif %}">{{ per }}%</span>
+            ,  Prev. Close Price : <span> {{ last_price }}</span>
+                , Close Price : <span> {{ closed_price }}</span>
+                    , P/E Ratio : <span> {{ PE }}</span>
+                        , P/B Ratio : <span> {{ PB }}</span></p>
+    </div>
+    
+    <div class="tradingview-widget-container">
+        <div id="tradingview_123456789"></div>
+    </div>
+    <script type="text/javascript">
+        var symbol = "{{ symbol }}";
+        new TradingView.widget(
+        {
+            "width": 980,
+            "height": 610,
+            "symbol": symbol,
+            "interval": "D",
+            "timezone": "Etc/UTC",
+            "theme": "light",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#f1f3f6",
+            "enable_publishing": false,
+            "allow_symbol_change": true,
+            "container_id": "tradingview_123456789",
+            "allow_symbol_change": false, // Disables the symbol change functionality
+            "hideideas": true, // Disables the symbol search functionality
+        }
+        );
+    </script>
+
+
+<table>
+    <tr>
+        <!-- Headers -->
+        {% for header in top_list %}
+            <th>{{ header }}</th>
+        {% endfor %}
+    </tr>
+    
+    <!-- First list data -->
+    <tr>
+        {% for item in list1 %}
+            <td>{{ item }}</td>
+        {% endfor %}
+    </tr>
+    
+    <!-- Second list data -->
+    <tr>
+        {% for item in list2 %}
+            <td>{{ item }}</td>
+        {% endfor %}
+    </tr>
+
+    
+    
+</table>
+
+<table>
+    <thead>
+        <tr>
+
+            <th>RSI</th>
+            <th>STOCH</th>
+            <th>STOC_MACD</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+
+            <td>{{ rsi }}</td>
+            <td> {{ signal_stoch }} </td>
+            <td>{{ signal_macd }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+    <h2 >Chart 1: Quaterly Sales, Expenses and Net Profit    </h2>  
+    <div class="container">
+    
+    <div class="chart-container">
+      
+        <img src="data:image/png;base64,{{ chart1 }}" alt="Chart 1">
+    </div>
+    <div class="chart-container">
+        <img src="data:image/png;base64,{{ chart2 }}" alt="Chart 2">
+    </div>
+    <div class="chart-container">
+        
+        <img src="data:image/png;base64,{{ chart3 }}" alt="Chart 3">
+    </div>
+</div>
+
+    <h2>Chart 2: Yearly Sales, Expenses and Net Profit</h2>
+
+    <div class="container">
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ chart4 }}" alt="Chart 3">
+        </div>
+        <div class="chart-container">
+            <h2></h2>
+            <img src="data:image/png;base64,{{ chart5 }}" alt="Chart 3">
+        </div>
+        <div class="chart-container">
+            <h2></h2>
+            <img src="data:image/png;base64,{{ chart6 }}" alt="Chart 3">
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

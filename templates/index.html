@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data from PostgreSQL</title>
+    <style>
+        /* Add your CSS styles here */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .search-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .search-form input[type="text"] {
+            padding: 8px;
+            width: 10px;
+        }
+        .search-form button {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #searchInput {
+            width: 20%;
+            padding: 8px;
+        }
+        #searchSuggestions {
+            display: none;
+            position: absolute;
+            width: 21.3%;
+            right: 42%; /* Align the suggestions to the center horizontally */
+            /* transform: translateX(-10%); Center the suggestions relative to the parent */
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            max-height: 50px;
+            overflow-y: auto;
+            z-index: 1;
+        }
+        #searchSuggestions option {
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="search-form">
+        <form action="/suggest" method="POST">
+            <input type="text" id="searchInput" name="query" placeholder="Search by Company Name..." autocomplete="off">
+            <div id="searchSuggestions"></div>
+            <button type="submit">Search</button>
+            
+        </form>
+        
+    </div>
+
+     <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            if (query.length === 0) {
+                searchSuggestions.innerHTML = ''; // Clear suggestions if search query is empty
+                searchSuggestions.style.display = 'none';
+                return;
+            }
+            fetch(`/suggest?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const suggestions = data.suggestions;
+                    searchSuggestions.innerHTML = ''; // Clear previous suggestions
+                    if (suggestions.length > 0) {
+                        suggestions.forEach(suggestion => {
+                            const suggestionItem = document.createElement('div');
+                            suggestionItem.classList.add('suggestion-item');
+                            suggestionItem.textContent = suggestion;
+                            suggestionItem.addEventListener('click', function() {
+                                searchInput.value = suggestion;
+                                searchSuggestions.style.display = 'none'; // Hide suggestions after selection
+                            });
+                            searchSuggestions.appendChild(suggestionItem);
+                        });
+                        searchSuggestions.style.display = 'block';
+                    } else {
+                        searchSuggestions.style.display = 'none'; // Hide suggestions if there are no suggestions
+                    }
+                })
+                .catch(error => console.error('Error fetching suggestions:', error));
+        });
+    </script>
+    
+    <h2>Stock Overview</h2>
+    <table>
+        <tr>
+            <th>Company Name</th>
+            <th>Market Cap</th>
+            <th>Stock Price</th>
+            <th>Sector</th>
+            <th>Industry</th>
+            <th>P/E</th>
+            <th>P/B</th>
+        </tr>
+
+            {% for row in data: %}
+            <tr>
+                <td><a href="/company/{{row[1]}}">{{row[1] }}</a></td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5]  }}</td>
+                <td>{{  row[5] }}</td>
+            </tr>
+            {% endfor %}
+    </table>
+    
+
+
+
+    
+</body>
+</html>

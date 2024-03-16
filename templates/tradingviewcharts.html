@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradingView Chart</title>
+    <!-- Include TradingView's charting library -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+</head>
+<body>
+    <!-- Embed the TradingView chart using the provided embed code -->
+    <div class="tradingview-widget-container">
+        <div id="tradingview_123456789"></div>
+    </div>
+    <script type="text/javascript">
+        new TradingView.widget(
+        {
+            "width": 980,
+            "height": 610,
+            "symbol": "TATAPOWER",
+            "interval": "D",
+            "timezone": "Etc/UTC",
+            "theme": "light",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#f1f3f6",
+            "enable_publishing": false,
+            "allow_symbol_change": true,
+            "container_id": "tradingview_123456789",
+            "allow_symbol_change": false, // Disables the symbol change functionality
+            "hideideas": true, // Disables the symbol search functionality
+        }
+        );
+    </script>
+</body>
+</html>

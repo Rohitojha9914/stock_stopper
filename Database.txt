@@ -1,0 +1,44 @@
+sudo apt install postgresql
+
+
+#connect with psql
+sudo -i -u postgres
+
+#connect with server
+psql
+
+create DB db_name
+
+
+#connect with database
+\c db_name
+
+\l show all database
+
+\dt show all table
+
+
+
+#how to create superuser and password database
+1. psql -U postgres;
+2. CREATE ROLE rohit WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD '1234';
+
+2. add role (create, write and update)
+
+CREATE TABLE stockAllData (id SERIAL PRIMARY KEY, stock_name varchar(255) NOT NULL, marketcap varchar(255), sector varchar(255), industry varchar(255), pe varchar(255) ); 
+
+#create table stockname
+CREATE TABLE listedcompany (id int PRIMARY KEY, company_name varchar(255), symbol varchar(255) ); 
+
+#insert values
+INSERT INTO listedcompany(id, company_name, symbol) VALUES(%s, %s, %s ) 
+
+
+create table fin_column (id SERIAL PRIMARY KEY, quaterly varchar(255), yearly varchar(255), balance_sheet varchar(255), shareholding varchar(255));
+
+#
+insert into fin_column (quaterly, yearly, balance_sheet, shareholding) values ('sales', 'sales_yearly', 'equity_capital', 'promoters'), ('expenses', 'expenses_yearly', 'reserves', 'FII'), ('margin', 'margin_yearly', 'borrowing', 'DII'), ('other_income', 'other_income_yearly', 'investment', 'govt'), ('before_tax', 'before_tax_yearly', NULL, 'public'), ('tax', 'tax_yearly', NULL, NULL), ('net_profit','net_profit_yearly', NULL, NULL);
+
+
+create table quaterly (stock_symbol varchar(255));
+
